@@ -12,6 +12,8 @@ struct closer {
   ~closer() { close(fd); }
 };
 
+mfile::mfile() : data{NULL}, len{0} {}
+
 mfile::mfile(std::string &path) {
   int fd = open(path.c_str(), 0);
 
@@ -52,8 +54,24 @@ mfile::mfile(std::string &&path) {
     throw std::system_error();
 }
 
+mfile::mfile(mfile &&file) : data{file.data}, len{file.len} {
+  file.data = NULL;
+  file.len = 0;
+}
+
+mfile &mfile::operator=(mfile &&file) {
+  this->data = file.data;
+  this->len = file.len;
+
+  file.data = NULL;
+  file.len = 0;
+  return *this;
+}
+
 mfile::~mfile() { munmap(data, len); }
 
-mfile::operator std::string_view() {
+mfile::operator bool() const { return data != NULL; }
+
+mfile::operator std::string_view() const {
   return std::string_view((const char *)data, len);
 }

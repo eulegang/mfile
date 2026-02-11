@@ -9,8 +9,14 @@ const std::string test_content = "#include \"gtest/gtest.h\"\n"
                                  "}\n";
 
 TEST(mfile, content) {
-  // runs in build directory for ctest
-  mfile file{"../tests/main.cpp"};
+  mfile file;
+  try {
+    // assumes base source directory
+    file = mfile{"tests/main.cpp"};
+  } catch (...) {
+    // runs in build directory for ctest
+    file = mfile{"../tests/main.cpp"};
+  }
 
   EXPECT_EQ((std::string_view)file, test_content);
 }

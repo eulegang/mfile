@@ -10,11 +10,19 @@ class mfile final {
   size_t len;
 
 public:
+  mfile();
   mfile(std::string &);
   mfile(std::string &&);
   ~mfile();
 
-  operator std::string_view();
+  mfile(const mfile &) = delete;
+  mfile &operator=(const mfile &) = delete;
+
+  mfile(mfile &&);
+  mfile &operator=(mfile &&);
+
+  operator bool() const;
+  operator std::string_view() const;
 };
 
 #endif

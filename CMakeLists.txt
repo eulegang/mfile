@@ -27,6 +27,12 @@ if (GTEST_FOUND)
   add_test(unit unit)
 endif()
 
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/mfile.pc.in
+    ${CMAKE_CURRENT_BINARY_DIR}/mfile.pc
+    @ONLY
+)
+
 install(TARGETS mfile RUNTIME DESTINATION lib)
-# install(FILES docs/git-each.1 DESTINATION share/man/man1)
-# install(FILES docs/git-each-format.5 DESTINATION share/man/man5)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/mfile.pc" DESTINATION lib/pkgconfig)
+install(FILES src/mfile.h DESTINATION include)

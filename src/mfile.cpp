@@ -75,3 +75,7 @@ mfile::operator bool() const { return data != NULL; }
 mfile::operator std::string_view() const {
   return std::string_view((const char *)data, len);
 }
+
+mfile::operator std::span<const uint8_t>() const {
+  return std::span<const uint8_t>((const uint8_t *)data, len);
+}

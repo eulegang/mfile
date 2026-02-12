@@ -2,6 +2,8 @@
 #define _MFILE_H
 
 #include <cstddef>
+#include <cstdint>
+#include <span>
 #include <string>
 #include <string_view>
 
@@ -23,6 +25,7 @@ public:
 
   operator bool() const;
   operator std::string_view() const;
+  operator std::span<const uint8_t>() const;
 };
 
 #endif
